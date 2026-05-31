@@ -1,0 +1,85 @@
+/* Navbar base */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 12px 30px;
+
+  /* Glass effect */
+  background: rgba(255, 140, 0, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border-bottom: 1px solid rgba(255, 140, 0, 0.25);
+
+  /* Glow effect */
+  box-shadow:
+    0 0 10px rgba(255, 140, 0, 0.25),
+    0 0 25px rgba(255, 140, 0, 0.15);
+
+  transition: all 0.3s ease;
+}
+
+/* Hover glow stronger */
+.navbar:hover {
+  box-shadow:
+    0 0 15px rgba(255, 140, 0, 0.4),
+    0 0 35px rgba(255, 140, 0, 0.25);
+}
+
+/* Brand */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  filter: drop-shadow(0 0 8px rgba(255, 140, 0, 0.7));
+}
+
+.navbar-brand span {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ff8c00;
+  text-shadow: 0 0 10px rgba(255, 140, 0, 0.8);
+}
+
+/* Links */
+.navbar-links {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+.navbar-links li a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: 500;
+
+  padding: 8px 12px;
+  border-radius: 8px;
+
+  transition: 0.3s;
+}
+
+/* Hover effect */
+.navbar-links li a:hover {
+  background: rgba(255, 140, 0, 0.2);
+  color: #ff8c00;
+
+  box-shadow: 0 0 12px rgba(255, 140, 0, 0.6);
+  transform: translateY(-2px);
+}
+
+/* Active click feel */
+.navbar-links li a:active {
+  transform: scale(0.95);
+}

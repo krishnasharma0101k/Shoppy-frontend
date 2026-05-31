@@ -1,0 +1,165 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+/* ───────── PAGE ───────── */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: #0f0f0f;
+  background-image: radial-gradient(
+    ellipse 80% 50% at 50% -10%,
+    rgba(255, 90, 0, 0.12) 0%,
+    transparent 60%
+  );
+
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* glow */
+.login-glow {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255,106,0,0.15), transparent 70%);
+  filter: blur(40px);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+}
+
+/* ───────── CARD ───────── */
+.login-card {
+  width: 100%;
+  max-width: 450px;
+
+  padding: 40px;
+  border-radius: 24px;
+
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,140,40,0.15);
+
+  backdrop-filter: blur(14px);
+  box-shadow: 0 0 35px rgba(255,100,0,0.12);
+
+  z-index: 2;
+  position: relative;
+}
+
+/* ───────── HEADER ───────── */
+.login-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.login-header h1 {
+  font-size: 36px;
+  color: white;
+  margin-bottom: 8px;
+}
+
+.login-header span {
+  background: linear-gradient(90deg,#ff6a00,#ffaa44);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.login-header p {
+  color: rgba(255,200,140,0.6);
+  font-size: 14px;
+}
+
+/* ───────── INPUT ───────── */
+.input-box {
+  margin-bottom: 18px;
+}
+
+.input-box label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: #ffb366;
+}
+
+.input-box input {
+  width: 100%;
+  padding: 14px;
+
+  border-radius: 12px;
+  border: 1px solid rgba(255,140,40,0.18);
+
+  background: rgba(255,255,255,0.04);
+  color: white;
+
+  outline: none;
+  transition: 0.3s;
+}
+
+.input-box input:focus {
+  border-color: #ff6a00;
+  box-shadow: 0 0 18px rgba(255,106,0,0.25);
+}
+
+/* ───────── BUTTON ───────── */
+.login-btn {
+  width: 100%;
+  padding: 14px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: linear-gradient(135deg,#ff6a00,#ff9a3c);
+  color: white;
+
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(255,106,0,0.4);
+}
+
+/* ───────── FOOTER ───────── */
+.login-footer {
+  margin-top: 18px;
+  text-align: center;
+  color: rgba(255,200,140,0.6);
+  font-size: 14px;
+}
+
+.login-footer a {
+  color: #ff9a3c;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login-footer a:hover {
+  color: white;
+}
+
+/* ───────── RESPONSIVE ───────── */
+@media (max-width: 600px) {
+  .login-card {
+    padding: 25px;
+  }
+
+  .login-header h1 {
+    font-size: 28px;
+  }
+}

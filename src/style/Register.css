@@ -1,0 +1,138 @@
+* {
+  box-sizing: border-box;
+}
+
+.register-page {
+  min-height: 100vh;
+  background: #0f0f0f;
+  background-image: radial-gradient(
+    ellipse 80% 50% at 50% -10%,
+    rgba(255, 90, 0, 0.12) 0%,
+    transparent 60%
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  position: relative;
+  overflow: hidden;
+}
+
+.register-glow {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 106, 0, 0.15),
+    transparent 70%
+  );
+  filter: blur(40px);
+}
+
+.register-card {
+  width: 100%;
+  max-width: 500px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 140, 40, 0.15);
+  border-radius: 24px;
+  padding: 40px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 0 30px rgba(255, 100, 0, 0.1);
+  position: relative;
+  z-index: 2;
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.register-header h1 {
+  font-size: 38px;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.register-header span {
+  background: linear-gradient(90deg, #ff6a00, #ffaa44);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.register-header p {
+  color: rgba(255, 200, 140, 0.6);
+  font-size: 14px;
+}
+
+.input-box {
+  margin-bottom: 18px;
+}
+
+.input-box label {
+  display: block;
+  color: #ffb366;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.input-box input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 140, 40, 0.18);
+  background: rgba(255, 255, 255, 0.04);
+  color: white;
+  outline: none;
+  transition: 0.3s;
+}
+
+.input-box input:focus {
+  border-color: #ff6a00;
+  box-shadow: 0 0 18px rgba(255, 106, 0, 0.25);
+}
+
+.register-btn {
+  width: 100%;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  margin-top: 10px;
+  background: linear-gradient(135deg, #ff6a00, #ff9a3c);
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.register-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(255, 106, 0, 0.4);
+}
+
+.register-footer {
+  margin-top: 20px;
+  text-align: center;
+  color: rgba(255, 200, 140, 0.6);
+}
+
+.register-footer a {
+  color: #ff9a3c;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.register-footer a:hover {
+  color: white;
+}
+
+@media (max-width: 600px) {
+  .register-card {
+    padding: 25px;
+  }
+
+  .register-header h1 {
+    font-size: 30px;
+  }
+}

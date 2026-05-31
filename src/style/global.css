@@ -1,0 +1,156 @@
+/* =========================
+   SHOPPY GLOBAL THEME
+   ========================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: #0b0b0f;
+  color: rgba(255, 220, 180, 0.9);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* LINKS */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* =========================
+   GLOBAL BUTTON STYLE
+   ========================= */
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+/* =========================
+   GLASS CARD BASE
+   ========================= */
+
+.glass {
+  background: rgba(255, 120, 20, 0.06);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  border: 1px solid rgba(255, 140, 40, 0.2);
+
+  box-shadow:
+    0 10px 30px rgba(255, 110, 10, 0.12),
+    inset 0 1px 0 rgba(255, 180, 80, 0.1);
+
+  border-radius: 12px;
+}
+
+/* =========================
+   TEXT GLOW THEME
+   ========================= */
+
+.text-glow {
+  color: #fff;
+  text-shadow:
+    0 0 16px rgba(255, 130, 30, 0.7),
+    0 0 32px rgba(255, 90, 0, 0.35);
+}
+
+/* =========================
+   CONTAINERS
+   ========================= */
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* =========================
+   HERO SECTION
+   ========================= */
+
+.hero-banner {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.hero-banner h1 {
+  font-size: 2.5rem;
+  color: #fff;
+  text-shadow:
+    0 0 20px rgba(255, 120, 20, 0.7);
+}
+
+.hero-banner p {
+  margin-top: 10px;
+  color: rgba(255, 200, 140, 0.8);
+}
+
+/* =========================
+   PRODUCT GRID
+   ========================= */
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 20px 0;
+}
+
+/* =========================
+   LOADING STYLE
+   ========================= */
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: rgba(255, 180, 120, 0.8);
+  font-size: 1.1rem;
+}
+
+/* =========================
+   CART BADGE
+   ========================= */
+
+.cart-badge {
+  background: rgba(255, 120, 20, 0.2);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 12px;
+
+  box-shadow: 0 0 10px rgba(255, 100, 10, 0.4);
+}
+
+/* =========================
+   SCROLLBAR (THEME STYLE)
+   ========================= */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0b0b0f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 120, 20, 0.4);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 120, 20, 0.7);
+}
