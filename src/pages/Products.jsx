@@ -33,7 +33,7 @@ const ProductDetail = () => {
       addToCart({
         productId: product._id,
         name: product.name,
-        imageUrl: product.imageUrl,
+        imageUrl: product.imageurl,
         price: product.price,
         qty: 1,
       })
@@ -74,7 +74,7 @@ const ProductDetail = () => {
 
           <div className="product-image-card">
             <img
-              src={product.imageUrl}
+              src={product.imageurl}
               alt={product.name}
               className="product-image"
             />
@@ -92,10 +92,10 @@ const ProductDetail = () => {
               ₹{product.price}
             </div>
 
-            <div className="stock-status">
+            <div className={`stock-status ${product.stock === 0 ? "out" : ""}`}>
               {product.stock > 0
                 ? `✓ In Stock (${product.stock} available)`
-                : "✕ Out of Stock"}
+                  : "✕ Out of Stock"}
             </div>
 
             <p className="product-description">
