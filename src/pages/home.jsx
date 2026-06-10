@@ -9,6 +9,7 @@ const Home = () => {
     const fetchProducts = async () => {
       try {
         const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/products`);
+        console.log("BACKEND URL:", process.env.REACT_APP_BACKEND_URL);
         const data = await res.json();
 
         setProducts(data.slice(0, 4)); // featured products
