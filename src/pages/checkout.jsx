@@ -32,6 +32,44 @@ const Checkout = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // ─── AUTH GUARD ────────────────────────────────────────────────────────────
+  // If no user is logged in, show a prompt instead of the checkout form.
+  if (!user) {
+    return (
+      <div className="checkout-empty">
+        <div className="checkout-empty-inner">
+          <div
+            style={{
+              fontSize: "48px",
+              marginBottom: "12px",
+              lineHeight: 1,
+            }}
+          >
+            🔒
+          </div>
+          <h2>Sign in to continue</h2>
+          <p>You need to be logged in to place an order.</p>
+          <div style={{ display: "flex", gap: "12px", justifyContent: "center", marginTop: "8px" }}>
+            <button
+              className="checkout-pay-btn"
+              onClick={() => navigate("/login", { state: { from: "/checkout" } })}
+            >
+              Log In
+            </button>
+            <button
+              className="checkout-pay-btn"
+              style={{ background: "#333" }}
+              onClick={() => navigate("/register", { state: { from: "/checkout" } })}
+            >
+              Register
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  // ──────────────────────────────────────────────────────────────────────────
+
   const handleChange = (e) => {
     setAddress({ ...address, [e.target.name]: e.target.value });
   };
@@ -59,7 +97,12 @@ const Checkout = () => {
   };
 
   const placeOrder = async (paymentId) => {
+    // Re-check auth before sending the request (token could have expired)
     const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login", { state: { from: "/checkout" } });
+      throw new Error("Session expired. Please log in again.");
+    }
 
     const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/orders`, {
       method: "POST",
@@ -67,22 +110,28 @@ const Checkout = () => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-     body: JSON.stringify({
-  items: cartItems.map(item => ({
-    product: item.productId || item._id,
-    quantity: Number(item.qty || 1)
-  })),
-  totalAmount: Number(total),
-  address: {
-    fullname: address.fullName,
-    street: address.street,
-    city: address.city
-  },
-  paymentId
-})
+      body: JSON.stringify({
+        items: cartItems.map((item) => ({
+          product: item.productId || item._id,
+          quantity: Number(item.qty || 1),
+        })),
+        totalAmount: Number(total),
+        address: {
+          fullname: address.fullName,
+          street: address.street,
+          city: address.city,
+        },
+        paymentId,
+      }),
     });
 
     const data = await res.json();
+
+    // Handle 401 Unauthorized explicitly
+    if (res.status === 401) {
+      navigate("/login", { state: { from: "/checkout" } });
+      throw new Error("Session expired. Please log in again.");
+    }
 
     if (!res.ok) throw new Error(data.message || "Order failed");
 
@@ -125,17 +174,30 @@ const Checkout = () => {
       if (!loaded) throw new Error("Razorpay failed to load");
 
       const token = localStorage.getItem("token");
+      if (!token) {
+        navigate("/login", { state: { from: "/checkout" } });
+        return;
+      }
 
-      const orderRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/payment/order`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ amount: total }),
-      });
+      const orderRes = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/payment/order`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ amount: total }),
+        }
+      );
 
       const orderData = await orderRes.json();
+
+      if (orderRes.status === 401) {
+        navigate("/login", { state: { from: "/checkout" } });
+        return;
+      }
+
       if (!orderRes.ok) throw new Error(orderData.message);
 
       const options = {
@@ -208,13 +270,17 @@ const Checkout = () => {
 
           {/* FORM */}
           <div className="checkout-form-col">
-
             <div className="checkout-section">
               <h2 className="checkout-section-title">Shipping Address</h2>
 
               <div className="form-grid">
                 {Object.keys(address).map((key) => (
-                  <div className={`form-group ${key === "fullName" || key === "phone" ? "full" : ""}`} key={key}>
+                  <div
+                    className={`form-group ${
+                      key === "fullName" || key === "phone" ? "full" : ""
+                    }`}
+                    key={key}
+                  >
                     <label>{key}</label>
                     <input
                       name={key}
@@ -231,7 +297,6 @@ const Checkout = () => {
 
           {/* SUMMARY */}
           <div className="checkout-summary">
-
             <div className="summary-title">Order Summary</div>
 
             <div className="summary-items">
@@ -285,7 +350,6 @@ const Checkout = () => {
             >
               Test Order
             </button>
-
           </div>
         </div>
       </div>
