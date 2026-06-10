@@ -27,7 +27,7 @@
       "react-app/jest"
     ]
   },
-  "proxy": "http://localhost:3000",
+  "proxy": "https://shoppy-xtd2.onrender.com/",
   "browserslist": {
     "production": [
       ">0.2%",
