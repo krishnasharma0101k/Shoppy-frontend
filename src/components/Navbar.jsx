@@ -20,7 +20,7 @@ const Navbar = () => {
       <div className="navbar-brand">
         <Link to="/" className="brand-link">
           <img
-            src="/ShoppyLOGO.png"
+            src="/ShoppyLOGO.svg"
             alt="shoppy"
             style={{
               height: "36px",

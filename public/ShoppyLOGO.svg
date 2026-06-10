@@ -1,0 +1,62 @@
+<svg width="300" height="120" viewBox="0 0 680 340" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Shoppy logo</title>
+  <desc>Shoppy brand logo with shopping bag icon and glowing orange wordmark</desc>
+
+  <defs>
+    <linearGradient id="bagGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff6a00"/>
+      <stop offset="100%" stop-color="#ff9a3c"/>
+    </linearGradient>
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff8c2a"/>
+      <stop offset="100%" stop-color="#ffb566"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="softglow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background glow halo -->
+  <ellipse cx="340" cy="170" rx="260" ry="90" fill="rgba(255,100,10,0.07)"/>
+
+  <!-- Shopping bag icon -->
+  <g transform="translate(155, 80)">
+    <rect x="0" y="38" width="96" height="78" rx="10" fill="url(#bagGrad)" filter="url(#glow)"/>
+    <rect x="0" y="38" width="96" height="18" rx="10" fill="rgba(255,255,255,0.12)"/>
+    <path d="M26 38 Q26 10 48 10 Q70 10 70 38" fill="none" stroke="url(#bagGrad)" stroke-width="7" stroke-linecap="round" filter="url(#softglow)"/>
+    <ellipse cx="22" cy="62" rx="8" ry="14" fill="rgba(255,255,255,0.13)" transform="rotate(-18 22 62)"/>
+    <g transform="translate(58, 72)" fill="#fff" opacity="0.9">
+      <polygon points="0,-7 1.8,-2 7,-2 2.9,1.5 4.3,7 0,3.8 -4.3,7 -2.9,1.5 -7,-2 -1.8,-2"/>
+    </g>
+  </g>
+
+  <!-- Wordmark -->
+  <text
+    x="278" y="152"
+    font-family="'Inter', 'Helvetica Neue', Arial, sans-serif"
+    font-size="72"
+    font-weight="700"
+    letter-spacing="-2"
+    fill="url(#textGrad)"
+    filter="url(#glow)"
+  >Shoppy</text>
+
+  <!-- Tagline -->
+  <text
+    x="278" y="186"
+    font-family="'Inter', 'Helvetica Neue', Arial, sans-serif"
+    font-size="15"
+    font-weight="400"
+    letter-spacing="4"
+    fill="rgba(255,180,100,0.55)"
+  >YOUR ONE-STOP SHOP</text>
+
+  <!-- Accent underline -->
+  <rect x="278" y="196" width="180" height="2" rx="1" fill="url(#bagGrad)" opacity="0.5"/>
+  <rect x="278" y="196" width="60" height="2" rx="1" fill="url(#bagGrad)" filter="url(#softglow)"/>
+</svg>

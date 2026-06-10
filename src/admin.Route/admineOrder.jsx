@@ -10,7 +10,7 @@ const AdminOrders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await fetch("/api/orders", {
+        const res = await fetch( `${process.env.REACT_APP_BACKEND_URL}/api/orders`, {
           headers: {
             Authorization: `Bearer ${user?.token}`,
           },
@@ -33,7 +33,7 @@ const AdminOrders = () => {
   // ================= UPDATE STATUS =================
   const updateStatus = async (id, status) => {
     try {
-      const res = await fetch(`/api/orders/${id}/status`, {
+      const res = await fetch( `${process.env.REACT_APP_BACKEND_URL}/api/orders/${id}/status`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

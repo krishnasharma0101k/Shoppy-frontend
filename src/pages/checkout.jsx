@@ -61,7 +61,7 @@ const Checkout = () => {
   const placeOrder = async (paymentId) => {
     const token = localStorage.getItem("token");
 
-    const res = await fetch("/api/orders", {
+    const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/orders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -126,7 +126,7 @@ const Checkout = () => {
 
       const token = localStorage.getItem("token");
 
-      const orderRes = await fetch("/api/payment/order", {
+      const orderRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/payment/order`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -146,7 +146,7 @@ const Checkout = () => {
 
         handler: async (response) => {
           try {
-            await fetch("/api/payment/verify", {
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/payment/verify`, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",

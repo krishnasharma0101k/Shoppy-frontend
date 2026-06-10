@@ -23,7 +23,8 @@ const AdminDashboard = () => {
 
     const fetchStats = async () => {
       try {
-        const res = await fetch("/api/analytics", {
+        const res = await (`${process.env.REACT_APP_BACKEND_URL}/api/analytics`,
+        {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },
@@ -72,7 +73,6 @@ const AdminDashboard = () => {
 
   return (
     <div className="container">
-
       {/* HEADER */}
       <div className="hero-banner">
         <h1 className="text-glow">Admin Dashboard</h1>

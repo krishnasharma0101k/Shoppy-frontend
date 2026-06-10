@@ -10,7 +10,7 @@ const AdminProducts = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("/api/products");
+        const res = await fetch( `${process.env.REACT_APP_BACKEND_URL}/api/products`);
         const data = await res.json();
 
         if (Array.isArray(data)) {
@@ -36,7 +36,7 @@ const AdminProducts = () => {
     if (!confirmDelete) return;
 
     try {
-      const res = await fetch(`/api/products/${id}`, {
+      const res = await fetch( `${process.env.REACT_APP_BACKEND_URL}/api/products/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${user.token}`,
