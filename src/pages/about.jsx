@@ -46,9 +46,7 @@ const About = () => {
   const badge = { display: "inline-block", padding: "4px 14px", borderRadius: "999px", fontSize: "11px", fontWeight: 500, letterSpacing: "2px", textTransform: "uppercase", color: "#ff9a3c", background: "rgba(255,106,0,0.1)", border: "1px solid rgba(255,140,40,0.25)", marginBottom: "1rem" };
   const btnPrimary = { display: "inline-flex", alignItems: "center", gap: "6px", padding: "10px 24px", background: "linear-gradient(135deg,#ff6a00,#ff9a3c)", color: "#fff", borderRadius: "10px", fontSize: "14px", fontWeight: 500, textDecoration: "none", boxShadow: "0 0 18px rgba(255,100,0,0.28)", cursor: "pointer", border: "none", fontFamily: "'Inter',sans-serif", transition: "all 0.22s" };
 
-  const hoverCard = (e) => { e.currentTarget.style.borderColor = "rgba(255,150,50,0.4)"; e.currentTarget.style.boxShadow = "0 0 24px rgba(255,100,10,0.2)"; e.currentTarget.style.transform = "translateY(-4px)"; };
-  const unhoverCard = (e) => { e.currentTarget.style.borderColor = "rgba(255,140,40,0.14)"; e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.transform = "translateY(0)"; };
-
+ 
   return (
     <>
       <style>{`
