@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { clearCart } from "../redux/cardSlice";
@@ -12,8 +12,13 @@ const Checkout = () => {
 
   const cartItems = useSelector((state) => state.cart.cartItems || []);
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const subtotal = cartItems.reduce(
+    (acc, item) => acc + (item.price || 0) * (item.qty || 1),
+    0
+  );
+
+  const shipping = subtotal > 999 ? 0 : 99;
+  const total = subtotal + shipping;
 
   const [address, setAddress] = useState({
     fullName: user?.name || "",
@@ -24,21 +29,8 @@ const Checkout = () => {
     pincode: "",
   });
 
-  // 🔐 PROTECT PAGE
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      navigate("/login");
-    }
-  }, [navigate]);
-
-  const subtotal = cartItems.reduce(
-    (acc, item) => acc + (item.price || 0) * (item.qty || 1),
-    0
-  );
-
-  const shipping = subtotal > 999 ? 0 : 99;
-  const total = subtotal + shipping;
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setAddress({ ...address, [e.target.name]: e.target.value });
@@ -66,40 +58,29 @@ const Checkout = () => {
     return true;
   };
 
-  // 🛒 PLACE ORDER
   const placeOrder = async (paymentId) => {
     const token = localStorage.getItem("token");
 
-    if (!token) {
-      navigate("/login");
-      return;
-    }
-
-    const res = await fetch(
-      `${process.env.REACT_APP_BACKEND_URL}/api/orders`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          items: cartItems.map((item) => ({
-            product: item.productId || item._id,
-            quantity: item.qty || 1,
-          })),
-          totalAmount: total,
-          address: {
-            fullname: address.fullName,
-            street: address.street,
-            city: address.city,
-            state: address.state,
-            pincode: address.pincode,
-          },
-          paymentId,
-        }),
-      }
-    );
+    const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/orders`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+     body: JSON.stringify({
+  items: cartItems.map(item => ({
+    product: item.productId || item._id,
+    quantity: Number(item.qty || 1)
+  })),
+  totalAmount: Number(total),
+  address: {
+    fullname: address.fullName,
+    street: address.street,
+    city: address.city
+  },
+  paymentId
+})
+    });
 
     const data = await res.json();
 
@@ -109,11 +90,12 @@ const Checkout = () => {
     navigate("/order-success", { state: { order: data.order } });
   };
 
-  // 🧪 TEST ORDER
   const handleTestOrder = async () => {
     if (!validateForm()) return;
 
     setLoading(true);
+    setError("");
+
     try {
       await placeOrder("TEST_" + Date.now());
     } catch (err) {
@@ -123,7 +105,6 @@ const Checkout = () => {
     }
   };
 
-  // 💳 RAZORPAY PAYMENT
   const loadRazorpay = () =>
     new Promise((resolve) => {
       const script = document.createElement("script");
@@ -134,13 +115,6 @@ const Checkout = () => {
     });
 
   const handlePayment = async () => {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      navigate("/login");
-      return;
-    }
-
     if (cartItems.length === 0) return navigate("/shop");
     if (!validateForm()) return;
 
@@ -150,17 +124,16 @@ const Checkout = () => {
       const loaded = await loadRazorpay();
       if (!loaded) throw new Error("Razorpay failed to load");
 
-      const orderRes = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/payment/order`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ amount: total }),
-        }
-      );
+      const token = localStorage.getItem("token");
+
+      const orderRes = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/payment/order`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ amount: total }),
+      });
 
       const orderData = await orderRes.json();
       if (!orderRes.ok) throw new Error(orderData.message);
@@ -173,17 +146,14 @@ const Checkout = () => {
 
         handler: async (response) => {
           try {
-            await fetch(
-              `${process.env.REACT_APP_BACKEND_URL}/api/payment/verify`,
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify(response),
-              }
-            );
+            await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/payment/verify`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify(response),
+            });
 
             await placeOrder(response.razorpay_payment_id);
           } catch (err) {
@@ -196,7 +166,6 @@ const Checkout = () => {
           contact: address.phone,
           email: user?.email || "",
         },
-
         theme: { color: "#ff6a00" },
       };
 
@@ -208,41 +177,118 @@ const Checkout = () => {
     }
   };
 
-  // 🛒 EMPTY CART UI
   if (!cartItems.length) {
     return (
       <div className="checkout-empty">
-        <h2>Your cart is empty</h2>
-        <button onClick={() => navigate("/shop")}>Go Shopping</button>
+        <div className="checkout-empty-inner">
+          <h2>Your cart is empty</h2>
+          <p>Add items to continue checkout</p>
+          <button onClick={() => navigate("/shop")} className="checkout-pay-btn">
+            Go Shopping
+          </button>
+        </div>
       </div>
     );
   }
 
-  // 🧾 UI
   return (
     <div className="checkout-page">
+      <div className="checkout-wrapper">
 
-      <h1>Checkout</h1>
+        {/* HEADER */}
+        <div className="checkout-header">
+          <div className="checkout-badge">SECURE CHECKOUT</div>
+          <h1 className="checkout-title">
+            Complete <span>Order</span>
+          </h1>
+          <p className="checkout-subtitle">Fill details to continue</p>
+        </div>
 
-      <input name="fullName" placeholder="Full Name" value={address.fullName} onChange={handleChange} />
-      <input name="phone" placeholder="Phone" value={address.phone} onChange={handleChange} />
-      <input name="street" placeholder="Street" value={address.street} onChange={handleChange} />
-      <input name="city" placeholder="City" value={address.city} onChange={handleChange} />
-      <input name="state" placeholder="State" value={address.state} onChange={handleChange} />
-      <input name="pincode" placeholder="Pincode" value={address.pincode} onChange={handleChange} />
+        <div className="checkout-layout">
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+          {/* FORM */}
+          <div className="checkout-form-col">
 
-      <h3>Total: ₹{total}</h3>
+            <div className="checkout-section">
+              <h2 className="checkout-section-title">Shipping Address</h2>
 
-      <button onClick={handlePayment} disabled={loading}>
-        {loading ? "Processing..." : `Pay ₹${total}`}
-      </button>
+              <div className="form-grid">
+                {Object.keys(address).map((key) => (
+                  <div className={`form-group ${key === "fullName" || key === "phone" ? "full" : ""}`} key={key}>
+                    <label>{key}</label>
+                    <input
+                      name={key}
+                      value={address[key]}
+                      onChange={handleChange}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
 
-      <button onClick={handleTestOrder} disabled={loading}>
-        Test Order
-      </button>
+            {error && <div className="checkout-error">{error}</div>}
+          </div>
 
+          {/* SUMMARY */}
+          <div className="checkout-summary">
+
+            <div className="summary-title">Order Summary</div>
+
+            <div className="summary-items">
+              {cartItems.map((item) => (
+                <div key={item.productId} className="summary-item">
+                  <img
+                    src={item.imageUrl || "https://via.placeholder.com/50"}
+                    className="summary-item-img"
+                    alt=""
+                  />
+                  <div>
+                    <div className="summary-item-name">{item.name}</div>
+                    <div className="summary-item-price">
+                      ₹{item.price * (item.qty || 1)}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="summary-divider" />
+
+            <div className="summary-row">
+              <span>Subtotal</span>
+              <span>₹{subtotal}</span>
+            </div>
+
+            <div className="summary-row">
+              <span>Shipping</span>
+              <span>{shipping === 0 ? "FREE" : `₹${shipping}`}</span>
+            </div>
+
+            <div className="summary-total">
+              <span>Total</span>
+              <span className="summary-total-amt">₹{total}</span>
+            </div>
+
+            <button
+              className="checkout-pay-btn"
+              onClick={handlePayment}
+              disabled={loading}
+            >
+              {loading ? "Processing..." : `Pay ₹${total}`}
+            </button>
+
+            <button
+              className="checkout-pay-btn"
+              style={{ marginTop: "10px", background: "#333" }}
+              onClick={handleTestOrder}
+              disabled={loading}
+            >
+              Test Order
+            </button>
+
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
