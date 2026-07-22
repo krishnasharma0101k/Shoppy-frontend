@@ -69,6 +69,7 @@ const Shop = () => {
       padding: "60px 5%",
       fontFamily: "'Inter', sans-serif",
       color: "#fff",
+      overflowX: "hidden",
     },
     container: { maxWidth: "1200px", margin: "0 auto" },
     hl: {
@@ -86,7 +87,7 @@ const Shop = () => {
       color: "#ff9a3c", background: "rgba(255,106,0,0.1)", border: "1px solid rgba(255,140,40,0.25)",
       marginBottom: "1rem",
     },
-    title: { fontSize: "clamp(28px,5vw,52px)", fontWeight: 700, color: "#fff", marginBottom: "0.5rem" },
+    title: { fontSize: "clamp(28px,8vw,52px)", fontWeight: 700, color: "#fff", marginBottom: "0.5rem" },
     subtitle: { fontSize: "14px", color: "rgba(255,200,140,0.55)" },
 
     /* Controls */
@@ -105,6 +106,7 @@ const Shop = () => {
     searchInput: {
       flex: 1, background: "transparent", border: "none", outline: "none",
       color: "#fff", fontSize: "14px", fontFamily: "'Inter',sans-serif",
+      minWidth: 0,
     },
     select: {
       padding: "10px 14px",
@@ -121,7 +123,7 @@ const Shop = () => {
     /* Results count */
     resultsRow: {
       display: "flex", justifyContent: "space-between", alignItems: "center",
-      marginBottom: "1.5rem",
+      marginBottom: "1.5rem", flexWrap: "wrap", gap: "8px",
     },
     resultsText: { fontSize: "13px", color: "rgba(255,180,100,0.5)" },
 
@@ -213,23 +215,43 @@ const Shop = () => {
         .shop-card:hover { transform: translateY(-6px) !important; border-color: rgba(255,150,50,0.4) !important; box-shadow: 0 0 28px rgba(255,100,10,0.2) !important; }
         .view-btn:hover  { background: rgba(255,120,20,0.28) !important; border-color: rgba(255,150,50,0.4) !important; }
         .cart-btn:hover  { box-shadow: 0 0 24px rgba(255,100,0,0.45) !important; transform: translateY(-1px) !important; }
-        .cat-btn { padding: 7px 16px; border-radius: 999px; font-size: 12px; font-weight: 500; cursor: pointer; font-family: 'Inter',sans-serif; transition: all 0.2s; border: 1px solid rgba(255,140,40,0.2); background: rgba(255,100,10,0.06); color: rgba(255,180,100,0.65); }
+        .cat-btn { padding: 7px 16px; border-radius: 999px; font-size: 12px; font-weight: 500; cursor: pointer; font-family: 'Inter',sans-serif; transition: all 0.2s; border: 1px solid rgba(255,140,40,0.2); background: rgba(255,100,10,0.06); color: rgba(255,180,100,0.65); white-space: nowrap; }
         .cat-btn:hover { border-color: rgba(255,150,50,0.4); color: #fff; }
         .cat-btn.active { background: linear-gradient(135deg,#ff6a00,#ff9a3c); border-color: transparent; color: #fff; box-shadow: 0 0 14px rgba(255,100,0,0.3); }
         .search-box:focus-within { border-color: rgba(255,150,50,0.45) !important; box-shadow: 0 0 0 3px rgba(255,100,10,0.1) !important; }
         .shop-select:focus { border-color: rgba(255,150,50,0.45) !important; }
         .shop-select option { background: #1a0a00; }
+
+        /* ── RESPONSIVE FIXES ── */
+        @media (max-width: 700px) {
+          .shop-page { padding: 40px 4% !important; }
+          .shop-header { margin-bottom: 2rem !important; }
+          .shop-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)) !important; gap: 0.9rem !important; }
+        }
+
         @media (max-width: 600px) {
-          .shop-controls { flex-direction: column !important; }
-          .cat-row { flex-wrap: wrap; }
+          .shop-controls { flex-direction: column !important; align-items: stretch !important; gap: 0.7rem !important; }
+          .search-box { min-width: 0 !important; width: 100% !important; }
+          .shop-select { width: 100% !important; }
+          .cat-row { flex-wrap: nowrap !important; overflow-x: auto !important; padding-bottom: 6px !important; -ms-overflow-style: none !important; scrollbar-width: none !important; }
+          .cat-row::-webkit-scrollbar { display: none !important; }
+        }
+
+        @media (max-width: 420px) {
+          .shop-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)) !important; gap: 0.7rem !important; }
+          .card-img { height: 130px !important; }
+          .card-body { padding: 10px !important; gap: 5px !important; }
+          .card-name { font-size: 13px !important; }
+          .card-price { font-size: 15px !important; }
+          .card-footer { flex-direction: column !important; gap: 6px !important; }
         }
       `}</style>
 
-      <div style={styles.page}>
+      <div style={styles.page} className="shop-page">
         <div style={styles.container}>
 
           {/* ── Header ── */}
-          <div style={styles.header}>
+          <div style={styles.header} className="shop-header">
             <div style={styles.badge}>🛍 Our Collection</div>
             <h1 style={styles.title}>
               Explore <span style={styles.hl}>Products</span>
@@ -323,7 +345,7 @@ const Shop = () => {
 
           {/* ── Product Grid ── */}
           {!loading && filtered.length > 0 && (
-            <div style={styles.grid}>
+            <div style={styles.grid} className="shop-grid">
               {filtered.map((product, i) => (
                 <div
                   key={product._id}
@@ -336,21 +358,22 @@ const Shop = () => {
                       src={product.imageurl || "https://via.placeholder.com/300"}
                       alt={product.name}
                       style={styles.cardImg}
+                      className="card-img"
                       onError={(e) => { e.target.src = "https://via.placeholder.com/300"; }}
                     />
                   </Link>
 
                   {/* Body */}
-                  <div style={styles.cardBody}>
+                  <div style={styles.cardBody} className="card-body">
                     <div style={styles.cardCategory}>{product.category}</div>
-                    <div style={styles.cardName} title={product.name}>{product.name}</div>
-                    <div style={styles.cardPrice}>₹{Number(product.price).toLocaleString("en-IN")}</div>
+                    <div style={styles.cardName} className="card-name" title={product.name}>{product.name}</div>
+                    <div style={styles.cardPrice} className="card-price">₹{Number(product.price).toLocaleString("en-IN")}</div>
                     <div style={styles.cardStock(product.stock)}>
                       {product.stock > 0 ? `✓ In Stock (${product.stock})` : "✕ Out of Stock"}
                     </div>
 
                     {/* Buttons */}
-                    <div style={styles.cardFooter}>
+                    <div style={styles.cardFooter} className="card-footer">
                       <Link to={`/products/${product._id}`} className="view-btn" style={styles.viewBtn}>
                         View
                       </Link>
