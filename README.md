@@ -1,79 +1,173 @@
-# Getting Started with Create React App
+# 🛍️ Shoppy — E-Commerce Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The customer- and admin-facing web client for **Shoppy**, an e-commerce platform. Built with React 19, React Router, and Redux Toolkit, it consumes the [Shoppy backend API](https://github.com/krishnasharma0101k/shoppy) to deliver product browsing, cart & checkout, order tracking, and a full admin dashboard.
 
-## Available Scripts
+**Live site:** [live-shoppy.netlify.app](https://live-shoppy.netlify.app)
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## ✨ Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Storefront
+- 🏠 Home, shop, and product detail pages
+- 🛒 Persistent shopping cart (Redux Toolkit + `localStorage`)
+- 💳 Checkout with Razorpay payment integration
+- 👤 User registration, login, and profile with order history
+- 📄 Static info pages — About, Disclaimer, Return Policy
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Admin Dashboard
+- 📊 Admin overview dashboard
+- 📦 Product management — add, edit, delete products
+- 🧾 Order management — view all orders, update order status
+- 👥 User management
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🧰 Tech Stack
 
-### `npm run build`
+| Layer | Technology |
+|---|---|
+| Library | React 19 |
+| Routing | React Router DOM 6 |
+| State Management | Redux Toolkit + React Redux (cart), Context API (auth) |
+| Build Tooling | Create React App (`react-scripts`) |
+| Payments | Razorpay Checkout (client-side) |
+| Deployment | Netlify |
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 📁 Project Structure
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+Shoppy-frontend/
+├── public/
+│   ├── index.html
+│   ├── ShoppyLOGO.svg
+│   └── _redirects              # Netlify SPA routing config
+├── src/
+│   ├── admin.Route/             # Admin-only pages
+│   │   ├── admindashboard.jsx
+│   │   ├── adminProducts.jsx
+│   │   ├── AddProduct.jsx
+│   │   ├── editProduct.jsx
+│   │   ├── admineOrder.jsx
+│   │   └── adminUser.jsx
+│   ├── components/              # Shared UI components
+│   │   ├── Navbar.jsx
+│   │   ├── Footer.jsx
+│   │   └── products.card.jsx
+│   ├── context/
+│   │   └── AuthContext.jsx      # User auth state (login/logout, token storage)
+│   ├── pages/                   # Storefront pages
+│   │   ├── home.jsx
+│   │   ├── shop.jsx
+│   │   ├── Products.jsx         # Product detail page
+│   │   ├── cart.jsx
+│   │   ├── checkout.jsx
+│   │   ├── ordersuccess.jsx
+│   │   ├── profile.jsx
+│   │   ├── login.jsx
+│   │   ├── RegisterUser.jsx
+│   │   ├── about.jsx
+│   │   ├── disclaimer.jsx
+│   │   └── returnPolicy.jsx
+│   ├── redux/
+│   │   ├── store.js
+│   │   └── cardSlice.js         # Cart state slice
+│   ├── style/                   # Component/page-level CSS
+│   ├── App.jsx                  # Route definitions
+│   └── index.js                 # App entry point
+├── package.json
+└── README.md
+```
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 🚀 Getting Started
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Prerequisites
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Node.js 18+
+- A running instance of the [Shoppy backend API](https://github.com/krishnasharma0101k/shoppy) (locally or deployed)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 1. Clone & install
 
-## Learn More
+```bash
+git clone https://github.com/krishnasharma0101k/Shoppy-frontend.git
+cd Shoppy-frontend
+npm install
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 2. Configure environment variables
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Create a `.env` file in the project root:
 
-### Code Splitting
+```env
+REACT_APP_BACKEND_URL=http://localhost:4000
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+This should point to wherever your Shoppy backend API is running. Every API call in the app — auth, products, orders, payments — is built from this variable.
 
-### Analyzing the Bundle Size
+### 3. Run the app
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```bash
+npm run dev      # starts the dev server (react-scripts start)
+```
 
-### Making a Progressive Web App
+> Note: the `dev` script sets `PORT=4000` for the frontend dev server. If your backend is also running on port 4000, you'll get a conflict — either run the frontend on a different port (e.g. `set PORT=3000 && react-scripts start`) or point `REACT_APP_BACKEND_URL` at wherever the backend actually ends up running.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Other available scripts:
 
-### Advanced Configuration
+```bash
+npm run build     # production build to /build
+npm test          # run tests in watch mode
+npm run eject     # eject CRA config (irreversible)
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+---
 
-### Deployment
+## 🔌 Backend Integration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+This frontend expects the [Shoppy backend](https://github.com/krishnasharma0101k/shoppy) to expose the following endpoints under `REACT_APP_BACKEND_URL`:
 
-### `npm run build` fails to minify
+| Feature | Endpoint(s) used |
+|---|---|
+| Auth | `POST /api/auth/register`, `POST /api/auth/login`, `GET /api/auth/users` |
+| Products | `GET /api/products`, `GET /api/products/:id`, `POST /api/products`, `PUT /api/products/:id` |
+| Orders | `POST /api/orders`, `GET /api/orders/myorders`, `GET /api/orders`, `PUT /api/orders/:id/status` |
+| Payments | `POST /api/payment/verify` |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Authenticated requests include a JWT (issued at login and stored via `AuthContext`) as a Bearer token in the `Authorization` header.
 
+---
 
+## 🔐 Authentication Flow
 
+- On login/registration, the backend returns a JWT + user info.
+- `AuthContext` (`src/context/AuthContext.jsx`) stores this in React state and persists it to `localStorage` (`userInfo`, `token`).
+- Protected UI (profile, checkout, admin routes) reads from this context to gate access and attach the token to API requests.
 
+---
 
+## 🛒 Cart State
 
+Cart state is managed via a Redux Toolkit slice (`src/redux/cardSlice.js`) and persisted to `localStorage` under `cartItems`, so the cart survives page reloads.
 
+---
 
+## 🌐 Deployment
 
+The app is configured for **Netlify** deployment:
+- `public/_redirects` rewrites all routes to `index.html`, enabling client-side routing (React Router) to work correctly on Netlify.
+- Set `REACT_APP_BACKEND_URL` as an environment variable in your Netlify site settings to point to your production backend.
+
+```bash
+npm run build
+# deploy the /build folder to Netlify (or any static host)
+```
+
+---
+
+## 📄 License
+
+ISC — © Krishna Sharma
