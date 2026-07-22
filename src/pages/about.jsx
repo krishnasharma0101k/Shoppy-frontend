@@ -68,18 +68,51 @@ const About = () => {
         .btn-copy:hover   { background:rgba(255,110,10,0.2)!important;border-color:rgba(255,150,50,0.5)!important; }
         .btn-primary-hover:hover { box-shadow:0 0 30px rgba(255,100,0,0.5)!important;transform:translateY(-2px)!important; }
         .btn-outline-el:hover { border-color:rgba(255,150,50,0.5)!important;color:#fff!important;box-shadow:0 0 14px rgba(255,100,10,0.2)!important; }
+
+        /* ── RESPONSIVE FIXES ── */
+        @media (max-width: 900px) {
+          .about-wrap { padding-left: 1.25rem !important; padding-right: 1.25rem !important; }
+          .mission-grid { grid-template-columns: 1fr !important; gap: 2.5rem !important; }
+          .mission-visual { height: 200px !important; order: -1; }
+          .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+          .values-grid { grid-template-columns: repeat(2,1fr) !important; }
+          .team-grid { grid-template-columns: repeat(2,1fr) !important; }
+        }
+
+        @media (max-width: 560px) {
+          .about-wrap { padding-left: 1rem !important; padding-right: 1rem !important; }
+          .hero-section { padding: 3rem 0 2.5rem !important; }
+          .hero-avatar-wrap { padding: 3px !important; }
+          .hero-avatar { width: 110px !important; height: 110px !important; }
+          .profile-stats-row { gap: 1.1rem !important; }
+          .location-row { gap: 0.9rem !important; }
+          .location-row span { font-size: 12px !important; }
+          .social-row { gap: 8px !important; }
+          .social-btn { padding: 8px 14px !important; font-size: 12px !important; }
+          .stats-grid { grid-template-columns: repeat(2,1fr) !important; gap: 0.8rem !important; }
+          .stat-card { padding: 1.3rem 0.6rem !important; }
+          .stat-card .stat-value { font-size: 26px !important; }
+          .values-grid { grid-template-columns: 1fr !important; gap: 0.9rem !important; }
+          .team-grid { grid-template-columns: repeat(2,1fr) !important; gap: 0.9rem !important; }
+          .content-section { padding: 3rem 0 !important; }
+          .cta-buttons { flex-direction: column !important; align-items: stretch !important; }
+          .cta-buttons a { justify-content: center !important; }
+          .mission-visual { height: 160px !important; }
+          .o1 { width: 130px !important; height: 130px !important; }
+          .o2 { width: 185px !important; height: 185px !important; }
+        }
       `}</style>
 
-      <div style={{ minHeight: "100vh", background: "#0f0f0f", backgroundImage: "radial-gradient(ellipse 80% 50% at 50% -10%,rgba(255,90,0,0.10) 0%,transparent 60%)", fontFamily: "'Inter',sans-serif", color: "#fff" }}>
+      <div style={{ minHeight: "100vh", background: "#0f0f0f", backgroundImage: "radial-gradient(ellipse 80% 50% at 50% -10%,rgba(255,90,0,0.10) 0%,transparent 60%)", fontFamily: "'Inter',sans-serif", color: "#fff", overflowX: "hidden" }}>
 
         {/* ── PROFILE HERO ── */}
-        <section style={{ position: "relative", padding: "5rem 0 3.5rem", textAlign: "center", overflow: "hidden" }}>
+        <section className="hero-section" style={{ position: "relative", padding: "5rem 0 3.5rem", textAlign: "center", overflow: "hidden" }}>
           <div style={{ position: "absolute", top: "-80px", left: "50%", transform: "translateX(-50%)", width: "700px", height: "420px", background: "radial-gradient(ellipse,rgba(255,90,0,0.12) 0%,transparent 70%)", pointerEvents: "none" }} />
-          <div style={wrap}>
+          <div className="about-wrap" style={wrap}>
 
             {/* Avatar */}
-            <div style={{ position: "relative", display: "inline-block", borderRadius: "50%", padding: "4px", background: "linear-gradient(135deg,#ff6a00,#ffaa44)", boxShadow: "0 0 24px rgba(255,100,0,0.45),0 0 50px rgba(255,80,0,0.18)", marginBottom: "1.5rem", animation: "pulse 3s ease-in-out infinite" }}>
-              <div style={{ width: "150px", height: "150px", borderRadius: "50%", background: "linear-gradient(135deg,#1a0a00,#2a1400)", border: "3px solid #0f0f0f", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "64px", overflow: "hidden" }}>
+            <div className="hero-avatar-wrap" style={{ position: "relative", display: "inline-block", borderRadius: "50%", padding: "4px", background: "linear-gradient(135deg,#ff6a00,#ffaa44)", boxShadow: "0 0 24px rgba(255,100,0,0.45),0 0 50px rgba(255,80,0,0.18)", marginBottom: "1.5rem", animation: "pulse 3s ease-in-out infinite" }}>
+              <div className="hero-avatar" style={{ width: "150px", height: "150px", borderRadius: "50%", background: "linear-gradient(135deg,#1a0a00,#2a1400)", border: "3px solid #0f0f0f", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "64px", overflow: "hidden" }}>
                 <img src="/dp.jpg" alt="Krishna Sharma" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "50%" }} onError={(e) => { e.target.style.display = "none"; e.target.parentNode.innerHTML = "👤"; }} />
               </div>
             </div>
@@ -90,7 +123,7 @@ const About = () => {
             </div>
 
             {/* Name */}
-            <h1 style={{ fontSize: "clamp(28px,5vw,52px)", fontWeight: 700, letterSpacing: "-1.5px", marginBottom: "6px", color: "#fff", lineHeight: 1.1 }}>
+            <h1 style={{ fontSize: "clamp(28px,8vw,52px)", fontWeight: 700, letterSpacing: "-1.5px", marginBottom: "6px", color: "#fff", lineHeight: 1.1 }}>
               Krishna <span style={hl}>Sharma</span>
             </h1>
             <p style={{ fontSize: "14px", color: "#ff9a3c", fontWeight: 500, letterSpacing: "1px", marginBottom: "1rem" }}>@krishna_sharma · Full Stack Developer</p>
@@ -101,7 +134,7 @@ const About = () => {
             </p>
 
             {/* Profile stats row */}
-            <div style={{ display: "flex", justifyContent: "center", gap: "2rem", marginBottom: "1.8rem" }}>
+            <div className="profile-stats-row" style={{ display: "flex", justifyContent: "center", gap: "2rem", marginBottom: "1.8rem", flexWrap: "wrap" }}>
               {[["128", "Projects"], ["4.2K", "Followers"], ["310", "Following"]].map(([v, l]) => (
                 <div key={l} style={{ textAlign: "center" }}>
                   <div style={{ fontSize: "20px", fontWeight: 700, ...hl }}>{v}</div>
@@ -111,20 +144,20 @@ const About = () => {
             </div>
 
             {/* Location + email row */}
-            <div style={{ display: "flex", justifyContent: "center", gap: "1.5rem", marginBottom: "2rem", flexWrap: "wrap" }}>
+            <div className="location-row" style={{ display: "flex", justifyContent: "center", gap: "1.5rem", marginBottom: "2rem", flexWrap: "wrap" }}>
               <span style={{ fontSize: "13px", color: "rgba(255,200,140,0.5)", display: "flex", alignItems: "center", gap: "5px" }}>📍 India</span>
-              <span style={{ fontSize: "13px", color: "rgba(255,200,140,0.5)", display: "flex", alignItems: "center", gap: "5px" }}>🎓 B.Tech CSE</span>
+              <span style={{ fontSize: "13px", color: "rgba(255,200,140,0.5)", display: "flex", alignItems: "center", gap: "5px" }}>🎓 BCA </span>
               <span style={{ fontSize: "13px", color: "rgba(255,200,140,0.5)", display: "flex", alignItems: "center", gap: "5px" }}>💼 Open to work</span>
             </div>
 
             {/* Copy email */}
             <button className="btn-copy" onClick={handleCopy}
-              style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "9px 20px", background: "rgba(255,100,10,0.08)", border: "1px solid rgba(255,140,40,0.25)", borderRadius: "10px", color: "rgba(255,180,100,0.7)", fontSize: "13px", cursor: "pointer", fontFamily: "'Inter',sans-serif", transition: "all 0.22s", marginBottom: "2rem" }}>
+              style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "9px 20px", background: "rgba(255,100,10,0.08)", border: "1px solid rgba(255,140,40,0.25)", borderRadius: "10px", color: "rgba(255,180,100,0.7)", fontSize: "13px", cursor: "pointer", fontFamily: "'Inter',sans-serif", transition: "all 0.22s", marginBottom: "2rem", maxWidth: "100%", whiteSpace: "normal", wordBreak: "break-word" }}>
               {copied ? "✅ Copied!" : "📧 krishna@shoppy.com — click to copy"}
             </button>
 
             {/* Social buttons */}
-            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "10px", marginBottom: "1rem" }}>
+            <div className="social-row" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "10px", marginBottom: "1rem" }}>
               {socials.map((s) => (
                 <a key={s.label} href={s.href} target="_blank" rel="noreferrer" className="social-btn"
                   style={{ display: "inline-flex", alignItems: "center", gap: "7px", padding: "9px 18px", borderRadius: "10px", border: `1px solid ${s.border}`, background: s.color, color: s.text, fontSize: "13px", fontWeight: 500, textDecoration: "none", backdropFilter: "blur(8px)", transition: "all 0.2s" }}>
@@ -151,13 +184,13 @@ const About = () => {
         </section>
 
         {/* ── STATS ── */}
-        <section style={{ padding: "3.5rem 0", borderTop: "1px solid rgba(255,140,40,0.12)", borderBottom: "1px solid rgba(255,140,40,0.12)" }}>
-          <div style={wrap}>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "1.2rem" }}>
+        <section className="content-section" style={{ padding: "3.5rem 0", borderTop: "1px solid rgba(255,140,40,0.12)", borderBottom: "1px solid rgba(255,140,40,0.12)" }}>
+          <div className="about-wrap" style={wrap}>
+            <div className="stats-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "1.2rem" }}>
               {stats.map((s, i) => (
                 <div key={i} className="stat-card"
                   style={{ textAlign: "center", padding: "1.8rem 1rem", borderRadius: "14px", background: "rgba(255,100,10,0.06)", border: "1px solid rgba(255,140,40,0.16)", backdropFilter: "blur(12px)", transition: "all 0.22s" }}>
-                  <div style={{ fontSize: "34px", fontWeight: 700, ...hl, marginBottom: "0.4rem" }}>{s.value}</div>
+                  <div className="stat-value" style={{ fontSize: "34px", fontWeight: 700, ...hl, marginBottom: "0.4rem" }}>{s.value}</div>
                   <div style={{ fontSize: "12px", color: "rgba(255,200,140,0.5)" }}>{s.label}</div>
                 </div>
               ))}
@@ -166,9 +199,9 @@ const About = () => {
         </section>
 
         {/* ── MISSION ── */}
-        <section style={{ padding: "5.5rem 0" }}>
-          <div style={wrap}>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "5rem", alignItems: "center" }}>
+        <section className="content-section" style={{ padding: "5.5rem 0" }}>
+          <div className="about-wrap" style={wrap}>
+            <div className="mission-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "5rem", alignItems: "center" }}>
               <div>
                 <div style={badge}>Our Mission</div>
                 <h2 style={{ fontSize: "clamp(22px,3.5vw,34px)", fontWeight: 700, marginBottom: "1rem", lineHeight: 1.2, color: "#fff" }}>
@@ -182,7 +215,7 @@ const About = () => {
                 </p>
                 <a href="/shop" className="btn-primary-hover" style={{ ...btnPrimary, marginTop: "1.5rem" }}>Explore Shop →</a>
               </div>
-              <div style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center", height: "260px" }}>
+              <div className="mission-visual" style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center", height: "260px" }}>
                 <div style={{ width: "120px", height: "120px", background: "linear-gradient(135deg,#ff4500,#ffaa44)", clipPath: "polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "46px", position: "relative", zIndex: 2, animation: "float 4s ease-in-out infinite" }}>🛍️</div>
                 <div className="orbit o1" />
                 <div className="orbit o2" />
@@ -195,13 +228,13 @@ const About = () => {
         </section>
 
         {/* ── VALUES ── */}
-        <section style={{ padding: "4.5rem 0", background: "rgba(255,100,10,0.025)", borderTop: "1px solid rgba(255,140,40,0.1)", borderBottom: "1px solid rgba(255,140,40,0.1)" }}>
-          <div style={wrap}>
+        <section className="content-section" style={{ padding: "4.5rem 0", background: "rgba(255,100,10,0.025)", borderTop: "1px solid rgba(255,140,40,0.1)", borderBottom: "1px solid rgba(255,140,40,0.1)" }}>
+          <div className="about-wrap" style={wrap}>
             <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
               <div style={badge}>Why Choose Us</div>
               <h2 style={{ fontSize: "32px", fontWeight: 700, color: "#fff" }}>The Shoppy <span style={hl}>Difference</span></h2>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "1.1rem" }}>
+            <div className="values-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "1.1rem" }}>
               {values.map((v, i) => (
                 <div key={i} className="val-card"
                   style={{ padding: "1.75rem 1.25rem", borderRadius: "14px", background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,140,40,0.14)", transition: "all 0.22s" }}>
@@ -215,13 +248,13 @@ const About = () => {
         </section>
 
         {/* ── TEAM ── */}
-        <section style={{ padding: "4.5rem 0" }}>
-          <div style={wrap}>
+        <section className="content-section" style={{ padding: "4.5rem 0" }}>
+          <div className="about-wrap" style={wrap}>
             <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
               <div style={badge}>The Team</div>
               <h2 style={{ fontSize: "32px", fontWeight: 700, color: "#fff" }}>People behind <span style={hl}>Shoppy</span></h2>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "1.25rem" }}>
+            <div className="team-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "1.25rem" }}>
               {team.map((m, i) => (
                 <div key={i} className="team-card"
                   style={{ textAlign: "center", padding: "2.2rem 1rem 1.75rem", borderRadius: "16px", background: "rgba(255,100,10,0.05)", border: "1px solid rgba(255,140,40,0.14)", backdropFilter: "blur(10px)", transition: "all 0.22s" }}>
@@ -235,16 +268,16 @@ const About = () => {
         </section>
 
         {/* ── CTA ── */}
-        <section style={{ position: "relative", padding: "6rem 0", textAlign: "center", overflow: "hidden" }}>
+        <section className="content-section" style={{ position: "relative", padding: "6rem 0", textAlign: "center", overflow: "hidden" }}>
           <div style={{ position: "absolute", bottom: "-60px", left: "50%", transform: "translateX(-50%)", width: "500px", height: "300px", background: "radial-gradient(ellipse,rgba(255,90,0,0.12) 0%,transparent 70%)", pointerEvents: "none" }} />
-          <div style={wrap}>
-            <h2 style={{ fontSize: "clamp(24px,4vw,40px)", fontWeight: 700, marginBottom: "1rem", color: "#fff" }}>
+          <div className="about-wrap" style={wrap}>
+            <h2 style={{ fontSize: "clamp(24px,6vw,40px)", fontWeight: 700, marginBottom: "1rem", color: "#fff" }}>
               Ready to start <span style={hl}>shopping?</span>
             </h2>
             <p style={{ fontSize: "14px", color: "rgba(255,200,140,0.55)", marginBottom: "2rem" }}>
               Join thousands of happy customers and discover something new today.
             </p>
-            <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
+            <div className="cta-buttons" style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
               <a href="/shop" className="btn-primary-hover" style={btnPrimary}>Shop Now</a>
               <a href="/login" className="btn-outline-el"
                 style={{ display: "inline-flex", alignItems: "center", padding: "10px 24px", border: "1px solid rgba(255,140,40,0.3)", color: "rgba(255,180,100,0.8)", borderRadius: "10px", fontSize: "14px", fontWeight: 500, textDecoration: "none", background: "rgba(255,100,10,0.06)", transition: "all 0.22s" }}>
